@@ -21,7 +21,7 @@ export default function App() {
       firstPokemon.number === secondPokemon.number &&
       secondPokemon.id !== firstPokemon.id
     )
-      setMatched(matched => [...matched, firstPokemon.number]);
+      setMatched((matched) => [...matched, firstPokemon.number]);
   }, [opened]);
 
   // clear cards after 2 have been selected
@@ -29,25 +29,29 @@ export default function App() {
     if (opened.length === 2) setTimeout(() => setOpened([]), 800);
   }, [opened]);
 
+  function flipCard(index) {
+    setMoves((moves) => moves + 1);
+    setOpened((opened) => [...opened, index]);
+  }
+
   // check if there is a winner
   useEffect(
-    moves => {
-      const party = pokemon.length - 4;
+    (moves) => {
+      const party = 8;
+      let howMuch = moves;
+      console.log(howMuch)
       if (matched.length === party)
-        alert(`Bravo tu as réussi en ${moves} clicks!`);
+        alert(`Bravo tu as réussi en ${howMuch} clicks!`);
     },
     [matched]
   );
 
-  function flipCard(index) {
-    setMoves(moves => moves + 1);
-    setOpened(opened => [...opened, index]);
-  }
+  console.log(moves)
 
   return (
     <div className="app">
       <p className="score">
-        {moves} <strong>retournements de carte</strong>
+        {moves} <strong>cartes retournées</strong>
       </p>
 
       <div className="cards">
@@ -82,9 +86,7 @@ function PokemonCard({ index, pokemon, isFlipped, flipCard }) {
       <div className="inner">
         <div className="front">
           <img
-            src={`https://pokeres.bastionbot.org/images/pokemon/${
-              pokemon.number
-            }.png`}
+            src={`https://pokeres.bastionbot.org/images/pokemon/${pokemon.number}.png`}
             alt={pokemon.name}
             width="90"
           />
